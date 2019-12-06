@@ -28,29 +28,21 @@ def get_indices_of_item_weights(weights, length, limit):
         hash_table_insert(ht, weights[i], i)
 
     for i in weights:
-        print("this is i", i)
         firstSubtraction = limit - i
-        print("FirstSubtraction is: ", firstSubtraction)
         secondNumber = hash_table_retrieve(ht, firstSubtraction)
-
-        # weightBeingTested = hash_table_retrieve(ht, i)
-        # print("this is weightbeingtested: ", weightBeingTested)
-        # firstNumber = limit - weightBeingTested
-        # print("this is firstnumber: ", firstNumber)
-        # secondNumber = hash_table_retrieve(ht, firstNumber)
-        # print("this is secondnumber: ", secondNumber)
         if secondNumber is not None:
             answer1 = hash_table_retrieve(ht, i)
+            #print("answer 1 is: ", answer1)
+            if answer1 == secondNumber:
+                answer = (answer1 +1, secondNumber)
+                print("answer found!", answer)
+                return answer
             if answer1 > secondNumber:
                 answer = (answer1, secondNumber)
                 print("answer found!", answer)
                 return answer
             if secondNumber > answer1:
                 answer = (secondNumber, answer1)
-                print("answer found!", answer)
-                return answer
-            else: 
-                answer = (answer1, secondNumber)
                 print("answer found!", answer)
                 return answer
             
