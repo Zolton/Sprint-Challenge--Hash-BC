@@ -23,30 +23,39 @@ def get_indices_of_item_weights(weights, length, limit):
         return None
 
     for i in range(length - 1):
-        print("This is the weight: ", weights[i])
-        print("where in array is the weight: ", i)
+        #print("This is the weight: ", weights[i])
+        #print("where in array is the weight: ", i)
         hash_table_insert(ht, weights[i], i)
 
     for i in weights:
-        weightBeingTested = hash_table_retrieve(ht, i)
-        firstNumber = limit - weightBeingTested
-        secondNumber = hash_table_retrieve(ht, firstNumber)
-        if secondNumber is not None:
-            answer = (firstNumber, secondNumber)
-            return answer
-            
-        
+        print("this is i", i)
+        firstSubtraction = limit - i
+        print("FirstSubtraction is: ", firstSubtraction)
+        secondNumber = hash_table_retrieve(ht, firstSubtraction)
 
-    #     print("This is in storage: ", i.key)
-        # if i.source is "NONE":
-        #     route[0] = i.destination
-    
-    #for i in range (length - 1):
-        
-    #     nextDestination = hash_table_retrieve(hashtable, route[i])
-    #     route[i+1] = nextDestination
+        # weightBeingTested = hash_table_retrieve(ht, i)
+        # print("this is weightbeingtested: ", weightBeingTested)
+        # firstNumber = limit - weightBeingTested
+        # print("this is firstnumber: ", firstNumber)
+        # secondNumber = hash_table_retrieve(ht, firstNumber)
+        # print("this is secondnumber: ", secondNumber)
+        if secondNumber is not None:
+            answer1 = hash_table_retrieve(ht, i)
+            if answer1 > secondNumber:
+                answer = (answer1, secondNumber)
+                print("answer found!", answer)
+                return answer
+            if secondNumber > answer1:
+                answer = (secondNumber, answer1)
+                print("answer found!", answer)
+                return answer
+            else: 
+                answer = (answer1, secondNumber)
+                print("answer found!", answer)
+                return answer
+            
     print("answer is: ", answer)
-    #return None
+    return answer
 
 
 def print_answer(answer):
