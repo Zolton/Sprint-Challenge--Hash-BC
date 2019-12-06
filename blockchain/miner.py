@@ -6,7 +6,8 @@ import sys
 from uuid import uuid4
 
 from timeit import default_timer as timer
-
+from flask import Flask, jsonify, request
+#from flask_cors import CORS
 import random
 
 
@@ -23,8 +24,15 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
+    #proof = 0
     #  TODO: Your code here
+    block_string = json.dumps(last_block, sort_keys=True)
+    proof = 1000
+    print("Starting proof_of_work")
+    while valid_proof(block_string, proof) is False:
+        proof += 1
+    print("Proof found: " + str(proof) + " in " + str(timer() - start))
+    return proof
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
@@ -38,9 +46,12 @@ def valid_proof(last_hash, proof):
 
     IE:  last_hash: ...AE9123456, new hash 123456E88...
     """
-
     # TODO: Your code here!
-    pass
+    print("last hash", last_hash)
+    oldHash = previousHash[-6:]
+    guess = f"{block_string}{proof}".encode()
+    guess_hash = hashlib.sha256(guess).hexdigest()
+    return guess_hash[:6] == oldHash
 
 
 if __name__ == '__main__':
@@ -66,6 +77,7 @@ if __name__ == '__main__':
         # Get the last proof from the server
         r = requests.get(url=node + "/last_proof")
         data = r.json()
+        print("last_proof is ", data.get('proof'))
         new_proof = proof_of_work(data.get('proof'))
 
         post_data = {"proof": new_proof,
