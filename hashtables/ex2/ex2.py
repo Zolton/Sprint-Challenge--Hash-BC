@@ -20,4 +20,11 @@ def reconstruct_trip(tickets, length):
     YOUR CODE HERE
     """
 
+    hashtable.hash_table_insert(tickets)
+    print(hashtable)
+    # for i in hashtable:
+    #     print(i)
+
+
+
     return route
