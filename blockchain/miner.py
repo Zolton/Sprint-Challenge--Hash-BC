@@ -34,7 +34,7 @@ def proof_of_work(last_proof):
     #print("given data: ", last_proof)
     #block_string = json.dumps(last_proof, sort_keys=True)
     #print("block string is ", block_string)
-    proof = random.randint(1, 1000000)
+    proof = random.randint(1, 20000000)
     print("Starting proof_of_work")
     while valid_proof(last_proof, proof) is False:
         proof += 1
@@ -57,9 +57,9 @@ def valid_proof(last_proof, proof):
     oldProofHashed = hashlib.sha256(oldProof).hexdigest()
     newProof = f"{proof}".encode()
     newProofHashed = hashlib.sha256(newProof).hexdigest()
-    if guess_hash[:6] == lastHash[-6:]:
-        print("last hash is: ", lastHash)
-        print("guess hash is: ", guess_hash)
+    # if newProofHashed[:6] == oldProofHashed[-6:]:
+    #     print("last hash is: ", oldProofHashed)
+    #     print("guess hash is: ", newProofHashed)
     return newProofHashed[:6] == oldProofHashed[-6:]
 
 

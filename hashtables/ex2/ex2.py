@@ -19,11 +19,34 @@ def reconstruct_trip(tickets, length):
     """
     YOUR CODE HERE
     """
-    print(hashtable)
-    hash_table_insert(tickets)
-    print(hashtable)
+    #print(hashtable)
+    #print("tickets", tickets)
+    for i in tickets:
+        print("INSERTION: source is ", i.source)
+        print("INSERTION: destination is: ", i.destination)
+        hash_table_insert(hashtable, i.source, i.destination)
+        print("retrieval: ", hash_table_retrieve(hashtable, i.source))
+        if i.source == "None":
+            print("First destination ", i.destination)
+            route[0] = i.destination
+    
+    for i in range (length):
+        nextDestination = hash_table_retrieve(hashtable, route[i])
+        print("Next destination is ", nextDestination)
+        route[i+1] = nextDestination
+        
+
+        # if i.value == 
+        #print("STORAGE hashtable key is ", i)
+        #print("STORAGE hashtbale value is ", i.value)
+        #route.append(i.value)
+        
+    print("route is ", route)
+    #hash_table_insert(tickets.source, tickets.destination)
+    #print(hashtable)
     # for i in hashtable:
     #     print(i)
+
 
 
 
