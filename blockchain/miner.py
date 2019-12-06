@@ -10,6 +10,11 @@ from flask import Flask, jsonify, request
 #from flask_cors import CORS
 import random
 
+    # def hash(proof):
+    #     block_string = json.dumps(proof, sort_keys=True).encode()
+    #     hash = hashlib.sha256(block_string).hexdigest()
+    #     return hash
+
 
 def proof_of_work(last_proof):
     """
@@ -27,17 +32,17 @@ def proof_of_work(last_proof):
     #proof = 0
     #  TODO: Your code here
     #print("given data: ", last_proof)
-    block_string = json.dumps(last_proof, sort_keys=True)
+    #block_string = json.dumps(last_proof, sort_keys=True)
     #print("block string is ", block_string)
-    proof = 1000000
+    proof = random.randint(1, 1000000)
     print("Starting proof_of_work")
-    while valid_proof(block_string, proof) is False:
+    while valid_proof(last_proof, proof) is False:
         proof += 1
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
 
-def valid_proof(lastHash, proof):
+def valid_proof(last_proof, proof):
     """
     Validates the Proof:  Multi-ouroborus:  Do the last six characters of
     the hash of the last proof match the first six characters of the hash
@@ -48,9 +53,14 @@ def valid_proof(lastHash, proof):
     # TODO: Your code here!
     #print("last hash", lastHash)
     #oldHash = lastHash[-2:]
-    guess = f"{lastHash}{proof}".encode()
-    guess_hash = hashlib.sha256(guess).hexdigest()
-    return guess_hash[:6] == lastHash[-6:]
+    oldProof = f"{last_proof}".encode()
+    oldProofHashed = hashlib.sha256(oldProof).hexdigest()
+    newProof = f"{proof}".encode()
+    newProofHashed = hashlib.sha256(newProof).hexdigest()
+    if guess_hash[:6] == lastHash[-6:]:
+        print("last hash is: ", lastHash)
+        print("guess hash is: ", guess_hash)
+    return newProofHashed[:6] == oldProofHashed[-6:]
 
 
 if __name__ == '__main__':
