@@ -39,19 +39,6 @@ def reconstruct_trip(tickets, length):
         print("Next destination is ", nextDestination)
         route[i+1] = nextDestination
         
-
-        # if i.value == 
-        #print("STORAGE hashtable key is ", i)
-        #print("STORAGE hashtbale value is ", i.value)
-        #route.append(i.value)
-        
     print("route is ", route)
-    #hash_table_insert(tickets.source, tickets.destination)
-    #print(hashtable)
-    # for i in hashtable:
-    #     print(i)
-
-
-
 
     return route
