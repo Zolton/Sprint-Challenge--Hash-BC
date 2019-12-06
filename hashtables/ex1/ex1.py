@@ -34,6 +34,7 @@ def get_indices_of_item_weights(weights, length, limit):
             answer1 = hash_table_retrieve(ht, i)
             #print("answer 1 is: ", answer1)
             if answer1 == secondNumber:
+                # If they're equal, they must be right next to each other
                 answer = (answer1 +1, secondNumber)
                 print("answer found!", answer)
                 return answer
