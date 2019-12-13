@@ -4,10 +4,16 @@ import requests
 import sys
 
 from uuid import uuid4
-
+import json
 from timeit import default_timer as timer
-
+from flask import Flask, jsonify, request
+#from flask_cors import CORS
 import random
+
+    # def hash(proof):
+    #     block_string = json.dumps(proof, sort_keys=True).encode()
+    #     hash = hashlib.sha256(block_string).hexdigest()
+    #     return hash
 
 
 def proof_of_work(last_proof):
@@ -23,24 +29,38 @@ def proof_of_work(last_proof):
     start = timer()
 
     print("Searching for next proof")
-    proof = 0
+    #proof = 0
     #  TODO: Your code here
-
+    #print("given data: ", last_proof)
+    #block_string = json.dumps(last_proof, sort_keys=True)
+    #print("block string is ", block_string)
+    proof = random.randint(1, 20000000)
+    print("Starting proof_of_work")
+    while valid_proof(last_proof, proof) is False:
+        proof += 1
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
 
-def valid_proof(last_hash, proof):
+def valid_proof(last_proof, proof):
     """
     Validates the Proof:  Multi-ouroborus:  Do the last six characters of
     the hash of the last proof match the first six characters of the hash
     of the new proof?
 
-    IE:  last_hash: ...AE9123456, new hash 123456E88...
+    IE:  lastHash: ...AE9123456, new hash 123456E88...
     """
-
     # TODO: Your code here!
-    pass
+    #print("last hash", lastHash)
+    #oldHash = lastHash[-2:]
+    oldProof = f"{last_proof}".encode()
+    oldProofHashed = hashlib.sha256(oldProof).hexdigest()
+    newProof = f"{proof}".encode()
+    newProofHashed = hashlib.sha256(newProof).hexdigest()
+    # if newProofHashed[:6] == oldProofHashed[-6:]:
+    #     print("last hash is: ", oldProofHashed)
+    #     print("guess hash is: ", newProofHashed)
+    return newProofHashed[:6] == oldProofHashed[-6:]
 
 
 if __name__ == '__main__':
@@ -66,6 +86,7 @@ if __name__ == '__main__':
         # Get the last proof from the server
         r = requests.get(url=node + "/last_proof")
         data = r.json()
+        print("last_proof is ", data.get('proof'))
         new_proof = proof_of_work(data.get('proof'))
 
         post_data = {"proof": new_proof,
